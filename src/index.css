@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    font-family: 'Nunito Sans', sans-serif;
+    @apply text-sm bg-zinc-50 dark:bg-very-darkblue text-very-darkgray dark:text-white
+}
+
+.country-info{
+    @apply basis-1/2 font-semibold
+}
+
+.country-info span{
+    @apply font-normal
+}
