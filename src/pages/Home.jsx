@@ -135,7 +135,7 @@ function Home() {
                             flags={country.flags}
                             region={country.region}
                             name={country.name}
-                            alpha3Code={country.cca2}
+                            alpha3Code={country.cca3}
                             population={country.population.toLocaleString('pt-BR')}
                             capital={country.capital} />
                         )) :
@@ -145,7 +145,7 @@ function Home() {
                                     key={country.cca2}
                                     flags={country.flags}
                                     region={country.region}
-                                    alpha3Code={country.cca2}
+                                    alpha3Code={country.cca3}
                                     name={country.name}
                                     population={country.population.toLocaleString('en-US')}
                                     capital={country.capital} />)
