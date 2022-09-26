@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import getInfoCountry from '../api/getCountry'
+import {getCountry} from '../api/getCountry'
 import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, Flag } from 'phosphor-react'
 import { MapContainer, TileLayer, Marker, Polygon } from "react-leaflet"
@@ -7,36 +7,25 @@ import { MapContainer, TileLayer, Marker, Polygon } from "react-leaflet"
 function Country() {
     const { countryId } = useParams()
     const [countryInfo, setCountryInfo] = useState()
-    
+
+   
     useEffect(() => {
         const mapCss = document.createElement('link')
         mapCss.href = "https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
         mapCss.rel = "stylesheet"
         mapCss.async = true
         document.head.appendChild(mapCss)
+
+        return ()=> mapCss
         
     }, [])
     
     useEffect(() => {
-        getInfoCountry(countryId).then(setCountryInfo)
+        getCountry(countryId).then(setCountryInfo)
+
+        document.title = countryInfo?.name
     }, [countryId])
 
-    function reverseLatLon() {
-        if (!countryInfo?.territory) return
-        if (countryInfo?.territory.length <= 1) {
-            return countryInfo?.territory[0].map(item => [item[1], item[0]])
-        }
-
-        const territoryDemarcation = countryInfo?.territory.map((territory) => {
-            const array = []
-            territory.map(demarcation =>
-                demarcation.map(demarcationPoint =>
-                    array.push([demarcationPoint[1], demarcationPoint[0]]))
-            )
-            return array
-        })
-        return territoryDemarcation
-    }
 
     if (!countryInfo) return (<div className="flex items-center justify-center animate-pulse"><Flag size={48} /></div>)
 
@@ -67,7 +56,7 @@ function Country() {
                             </div>
                             <div>
                                 <strong className="country-info">Population: </strong>
-                                <span>{countryInfo.population}</span>
+                                <span>{new Intl.NumberFormat('de-DE').format(countryInfo.population)}</span>
                             </div>
                             <div>
                                 <strong className="country-info">Region: </strong>
@@ -85,9 +74,9 @@ function Country() {
 
                         <div className="basis-1/2 flex flex-col space-y-2">
 
-                            <div>
+                        <div>
                                 <strong className="country-info">Top Level Domain: </strong>
-                                <span className="font-normal">{countryInfo.topLevelDomain[0]}</span>
+                                <span className="font-normal">{countryInfo?.topLevelDomain[0]}</span>
                             </div>
                             <div>
                                 <strong className="country-info">Currencies: </strong>
@@ -123,7 +112,7 @@ function Country() {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <Marker position={[countryInfo.latlng[0], countryInfo.latlng[1]]} />
-                    {reverseLatLon() && (<Polygon positions={reverseLatLon()} />)}
+                    {countryInfo.territory && (<Polygon positions={countryInfo.territory} />)}
                 </MapContainer>
             </div>
         </div>
