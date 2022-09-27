@@ -30,6 +30,20 @@ function Home() {
     const [filter, setFilter] = useState()
     const [currentPage, setCurrentPage] = useState(1)
 
+    const goToNext = ()=>{
+        console.log(currentPage)
+        if(currentPage>0 && currentPage < countries.length){
+            setCurrentPage((prevState)=>prevState+1)
+        }
+    }
+
+    const goToPrev = ()=>{
+        if(currentPage>0){
+            setCurrentPage((prevState)=>prevState-1)
+        }
+    }
+
+
     if (!countries) return
 
     return (
@@ -42,6 +56,10 @@ function Home() {
                     ? filter.map((country) => (<CountryCard key={country.alpha3Code} data={country} />))
                     : countries[currentPage - 1]?.map((country) => (<CountryCard key={country.alpha3Code} data={country} />))
                 }
+            </div>
+            <div className="flex space-between">
+                <button onClick={goToPrev}>Prev Page</button>
+                <button onClick={goToNext}>Next Page</button>
             </div>
         </main>
     )

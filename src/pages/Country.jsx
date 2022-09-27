@@ -3,33 +3,25 @@ import {getCountry} from '../api/getCountry'
 import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, Flag } from 'phosphor-react'
 import { MapContainer, TileLayer, Marker, Polygon } from "react-leaflet"
+import Helmet from "react-helmet"
 
 function Country() {
     const { countryId } = useParams()
     const [countryInfo, setCountryInfo] = useState()
 
-   
-    useEffect(() => {
-        const mapCss = document.createElement('link')
-        mapCss.href = "https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
-        mapCss.rel = "stylesheet"
-        mapCss.async = true
-        document.head.appendChild(mapCss)
-
-        return ()=> mapCss
-        
-    }, [])
-    
     useEffect(() => {
         getCountry(countryId).then(setCountryInfo)
-
-        document.title = countryInfo?.name
     }, [countryId])
 
 
     if (!countryInfo) return (<div className="flex items-center justify-center animate-pulse"><Flag size={48} /></div>)
 
     return (
+        <>
+        <Helmet>
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+            <title>{countryInfo.name}</title>
+        </Helmet>
         <div className="text-base p-6 md:p-10 flex flex-wrap space-y-10">
             <div>
                 <Link to="/">
@@ -116,6 +108,7 @@ function Country() {
                 </MapContainer>
             </div>
         </div>
+        </>
     )
 }
 

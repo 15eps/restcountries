@@ -8,7 +8,7 @@ export function Filter({ countries, handleFilter }) {
 
     const handleOpen = () => setDropDownStatus((prevState) => !prevState)
     const handleFilterType = (filter) => setFilterType(filter)
-    const resetFilter = () => handleFilter(null)
+    const resetFilter = () => {setFilterType(null); handleFilter(null)}
     
     const filterByCountryName = (filter) => {
         const countriesData = []
