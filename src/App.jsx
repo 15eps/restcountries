@@ -4,6 +4,7 @@ import Navbar from './components/navbar'
 
 import Home from './pages/Home'
 import Country from './pages/Country'
+import Quiz from './pages/Quiz'
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/quiz" element={<Quiz />} />
         <Route path=":countryId" element={<Country />} />
       </Routes>
     </BrowserRouter>

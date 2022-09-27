@@ -57,8 +57,9 @@ function Home() {
                     : countries[currentPage - 1]?.map((country) => (<CountryCard key={country.alpha3Code} data={country} />))
                 }
             </div>
-            <div className="flex space-between">
+            <div className="flex justify-between">
                 <button onClick={goToPrev}>Prev Page</button>
+
                 <button onClick={goToNext}>Next Page</button>
             </div>
         </main>

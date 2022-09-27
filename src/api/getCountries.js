@@ -34,13 +34,9 @@ export function getCountries() {
 
     const getCountries = async () =>await axios.get(`${API_URL}/all?fields=region,population,name,flags,capital,area,cca2,alpha3Code`)
         .then(res=>pagination(res.data.sort(()=>0.5 - Math.random() )))
-
-
     
     useEffect(() => {
         getCountries().then(data => setCountries(data))        
-    }, [])
-    console.log({countries})
-    
+    }, [])    
     return {countries}
 }
