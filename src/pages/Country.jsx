@@ -16,12 +16,7 @@ function Country() {
 
     if (!countryInfo) return (<div className="flex items-center justify-center animate-pulse"><Flag size={48} /></div>)
 
-    return (
-        <>
-        <Helmet>
-            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
-            <title>{countryInfo.name}</title>
-        </Helmet>
+    return (        
         <div className="text-base p-6 md:p-10 flex flex-wrap space-y-10">
             <div>
                 <Link to="/">
@@ -108,7 +103,6 @@ function Country() {
                 </MapContainer>
             </div>
         </div>
-        </>
     )
 }
 
