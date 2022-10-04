@@ -28,12 +28,16 @@ function pagination(array){
     return pages
 }
 
-export function getCountries() {
+export function getCountries(isPagination = true) {
 
     const [countries, setCountries] = useState()
 
     const getCountries = async () =>await axios.get(`${API_URL}/all?fields=region,population,name,flags,capital,area,cca2,alpha3Code`)
-        .then(res=>pagination(res.data.sort(()=>0.5 - Math.random() )))
+        .then(res=>{
+           return isPagination 
+            ? pagination(res.data.sort(()=>0.5 - Math.random())) 
+            : res.data.sort(()=>0.5 - Math.random())
+        })        
     
     useEffect(() => {
         getCountries().then(data => setCountries(data))        

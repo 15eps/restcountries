@@ -4,15 +4,14 @@ import { ArrowClockwise,MagnifyingGlass } from 'phosphor-react'
 export function Filter({ countries, handleFilter }) {
     const [dropDown, setDropDownStatus] = useState(false)
     const [typeFilter, setFilterType] = useState(null)
-    const [filterCountry, setFilterCountry] = useState()
+    const [filterCountry, setFilterCountry] = useState('')
 
     const handleOpen = () => setDropDownStatus((prevState) => !prevState)
     const handleFilterType = (filter) => setFilterType(filter)
     const resetFilter = () => {setFilterType(null); handleFilter(null)}
     
     const filterByCountryName = (filter) => {
-        const countriesData = []
-        
+        const countriesData = []        
         countries?.map(item => countriesData.push(...item))
         
         const country = countriesData.filter(item => item.name.toLowerCase().includes(filter.target.value.toLowerCase()))
@@ -20,27 +19,13 @@ export function Filter({ countries, handleFilter }) {
         handleFilter(country)
     }
 
-    const filterByPopulation = (type) => {
-        handleOpen()
-        handleFilterType("population")
-        const countriesData = []
-       countries?.map(item => countriesData.push(...item))
-        
-        type === "more"
-            ? handleFilter(countriesData.sort((a, b) => b.population - a.population))
-            : handleFilter(countriesData.sort((a, b) => a.population - b.population))
-    }
+    const filter = (field, type)=>{
+    const countriesData = []    
+    countries?.map(item => countriesData.push(...item))
 
-    const filterByArea = (type) => {
-        handleOpen()
-        handleFilterType("Area")
-
-        const countriesData = []
-        countries?.map(item => countriesData.push(...item))
-        
-        type === "more"
-            ? handleFilter(countriesData.sort((a, b) => b.area - a.area))
-            : handleFilter(countriesData.sort((a, b) => a.area - b.area))
+    type === "more"
+            ? handleFilter(countriesData.sort((a, b) =>Math.floor(b[field]) - Math.floor(a[field])))
+            : handleFilter(countriesData.sort((a, b) =>Math.floor(a[field]) - Math.floor(b[field])))
     }
 
     const filterByRegion = (region) => {
@@ -80,14 +65,9 @@ export function Filter({ countries, handleFilter }) {
                         <div className="absolute rounded-lg py-4 px-6 translate-x-[-17%] top-[230px] md:top-[175px] bg-white dark:bg-darkblue dark:very-darkgray flex flex-col space-y-5">
                             <div className="flex flex-col space-y-2">
                                 <span className="text-xs font-bold">Filter by population</span>
-                                <button onClick={() => filterByPopulation("more")}>More populous</button>
-                                <button onClick={() => filterByPopulation("less")}>Less populous</button>
-                            </div>
-                            <div className="flex flex-col space-y-2">
-                                <span className="text-xs font-bold">Filter by area km2</span>
-                                <button onClick={() => filterByArea("more")}>Largest area</button>
-                                <button onClick={() => filterByArea("less")}>Smallest area</button>
-                            </div>
+                                <button onClick={() => filter("population","more")}>More populous</button>
+                                <button onClick={() => filter("population","less")}>Less populous</button>
+                            </div>                            
                             <div className="flex flex-col space-y-2">
                                 <span className="text-xs font-bold">Filter by Continent</span>
                                 <button onClick={() => filterByRegion("Africa")}>Africa</button>
